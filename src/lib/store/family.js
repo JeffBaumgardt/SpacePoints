@@ -22,9 +22,29 @@ const getFamily = async docId => {
 		const result = await docRef.get()
 		const family = await result.docs[0]
 		if (!family || !family.exists) {
-			throw new Error('no family')
+			throw new Error('no-family')
 		}
 		return {id: family.id, data: family.data()}
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+const addAdultToFamily = async (docId, userId) => {
+	const docRef = store.collection('family').doc(docId)
+	try {
+		const result = await docRef.get()
+		const family = await result.docs[0]
+		if (!family || !family.exists) {
+			throw new Error('no-family')
+		}
+		const adults = family.data().adults
+		if (!adults.includes(userId)) {
+			docRef.set({adults: [...adults, userId]}, {merge: true, mergeFields: 'adult'})
+			return 'success'
+		} else {
+			return 'conflict'
+		}
 	} catch (error) {
 		console.error(error)
 	}
@@ -42,10 +62,10 @@ const findFamilyByEmail = async emailAddress => {
 		}
 	} catch (error) {
 		if (error.message === 'family-not-found') {
-			return {}
+			return null
 		}
 		throw error
 	}
 }
 
-export {createFamily, getFamily, findFamilyByEmail}
+export {createFamily, getFamily, findFamilyByEmail, addAdultToFamily}

@@ -32,6 +32,7 @@ const getUser = () => {
 					email: user.email,
 					photoURL: user.photoURL,
 					docRecord: userRecord.id,
+					id: user.uid,
 				})
 			} catch (error) {
 				logout()

@@ -1,14 +1,14 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/styles';
+import {makeStyles} from '@material-ui/styles'
 import {AppBar, Toolbar, Typography, IconButton, Menu, MenuItem} from '@material-ui/core'
-import {AccountCircle} from '@material-ui/icons'
 import {useAuth} from 'context/auth'
 import {useUser} from 'context/user'
+import ProfileImage from './ProfileImage'
 
 const useStyles = makeStyles(theme => ({
 	title: {
-		flexGrow: 1
-	}
+		flexGrow: 1,
+	},
 }))
 
 function TopRail() {
@@ -27,6 +27,11 @@ function TopRail() {
 		setAnchorEl(null)
 	}
 
+	function handleLogout() {
+		setAnchorEl(null)
+		logout()
+	}
+
 	return (
 		<AppBar position="static">
 			<Toolbar>
@@ -42,7 +47,7 @@ function TopRail() {
 							onClick={handleMenu}
 							color="inherit"
 						>
-							<AccountCircle />
+							<ProfileImage image={user.photoURL} name={user.name} />
 						</IconButton>
 						<Menu
 							id="menu-appbar"
@@ -52,7 +57,7 @@ function TopRail() {
 							open={open}
 							onClose={handleClose}
 						>
-							<MenuItem onClick={logout}>Sign Out</MenuItem>
+							<MenuItem onClick={handleLogout}>Sign Out</MenuItem>
 						</Menu>
 					</div>
 				) : null}
