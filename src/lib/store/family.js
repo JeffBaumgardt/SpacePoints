@@ -8,7 +8,7 @@ const createFamily = async familyName => {
 			name: familyName,
 			adults: [],
 			kids: [],
-			rewards: []
+			rewards: [],
 		})
 		return docRef.id
 	} catch (error) {
@@ -48,4 +48,4 @@ const findFamilyByEmail = async emailAddress => {
 	}
 }
 
-export { createFamily, getFamily, findFamilyByEmail}
+export {createFamily, getFamily, findFamilyByEmail}

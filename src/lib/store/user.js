@@ -14,7 +14,10 @@ const createUser = async uid => {
 }
 
 const getUser = async uid => {
-	const docRef = store.collection('user').where('uid', '==', uid).limit(1)
+	const docRef = store
+		.collection('user')
+		.where('uid', '==', uid)
+		.limit(1)
 	try {
 		const result = await docRef.get()
 		const doc = await result.docs[0]
@@ -32,7 +35,10 @@ const getUser = async uid => {
 }
 
 const updateUser = async (uid, update) => {
-	const docRef = store.collection('user').where('uid', '==', uid).limit(1)
+	const docRef = store
+		.collection('user')
+		.where('uid', '==', uid)
+		.limit(1)
 	try {
 		const result = await docRef.get()
 		const doc = await result.docs[0]

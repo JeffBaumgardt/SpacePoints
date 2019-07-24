@@ -15,7 +15,7 @@ function AuthentiatedApp() {
 		fetchFamily(user.email)
 	}, [user, setFamily])
 
-	return <div>Hello {user.name}</div>
+	return <div>Hello World</div>
 }
 
 export default AuthentiatedApp

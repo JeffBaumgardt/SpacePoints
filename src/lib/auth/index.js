@@ -39,7 +39,6 @@ const getUser = () => {
 			}
 		})
 	})
-
 }
 window.firebase = firebase
 
