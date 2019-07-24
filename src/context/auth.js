@@ -1,6 +1,5 @@
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import * as store from 'lib/store'
 import * as auth from 'lib/auth'
 import {useAction} from 'lib/useAction'
 
@@ -8,8 +7,8 @@ const AuthContext = React.createContext()
 
 function AuthProvider(props) {
 	const [attempt, setAttempt] = React.useState(false)
-	const [userData, setUserData] = React.useState({})
-	const [{data, loading, error, settled}, performAction] = useAction(auth.getUser)
+	const [userData, setUserData] = React.useState(null)
+	const [{loading, error, settled}, performAction] = useAction(auth.getUser)
 
 	React.useLayoutEffect(() => {
 		if (settled) {

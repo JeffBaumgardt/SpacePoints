@@ -3,16 +3,14 @@ import React from 'react'
 export const useAction = action => {
 	const [loading, setLoading] = React.useState(false)
 	const [error, setError] = React.useState(null)
-	const [data, setData] = React.useState(null)
 	const [settled, setSettled] = React.useState(false)
 
 	const performAction = async (body = null) => {
 		try {
 			setLoading(true)
 			setError(null)
-			setData(null)
+			setSettled(false)
 			const data = await action(body)
-			setData(data)
 			return data
 		} catch (error) {
 			setError(error)
@@ -22,5 +20,5 @@ export const useAction = action => {
 		}
 	}
 
-	return [{loading, error, data, settled}, performAction]
+	return [{loading, error, settled}, performAction]
 }

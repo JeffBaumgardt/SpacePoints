@@ -1,6 +1,7 @@
 import React from 'react'
 import {useUser} from 'context/user'
 import * as store from 'lib/store'
+import HomeLanding from 'pages/HomeLanding'
 
 function AuthentiatedApp() {
 	const user = useUser()
@@ -15,7 +16,7 @@ function AuthentiatedApp() {
 		fetchFamily(user.email)
 	}, [user, setFamily])
 
-	return <div>Hello World</div>
+	return <HomeLanding />
 }
 
 export default AuthentiatedApp
