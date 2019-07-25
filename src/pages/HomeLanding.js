@@ -3,6 +3,7 @@ import {Switch, Route, NavLink} from 'react-router-dom'
 import {Container, BottomNavigation, BottomNavigationAction} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import {GroupAdd, Cake, Home} from '@material-ui/icons'
+import JoinFamily from 'components/JoinFamily'
 
 const useStyles = makeStyles(theme => ({
 	bottomNav: {
@@ -14,8 +15,16 @@ const useStyles = makeStyles(theme => ({
 
 const ButtonLink = React.forwardRef((itemProps, ref) => <NavLink {...itemProps} innerRef={ref} />)
 
-function HomeLanding() {
+function HomeLanding({familyInfo}) {
 	const classes = useStyles()
+	const [family, setFamily] = React.useState(null)
+
+	React.useEffect(() => {
+		if (familyInfo) {
+			setFamily(familyInfo.id)
+		}
+	}, [setFamily, familyInfo])
+
 	return (
 		<Container maxWidth="sm">
 			<Switch>
@@ -38,6 +47,7 @@ function HomeLanding() {
 					component={ButtonLink}
 				/>
 			</BottomNavigation>
+			{family ? null : <JoinFamily completeFamily={newFamily => setFamily(newFamily)} />}
 		</Container>
 	)
 }

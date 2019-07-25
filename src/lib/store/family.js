@@ -12,7 +12,7 @@ const createFamily = async familyName => {
 		})
 		return docRef.id
 	} catch (error) {
-		console.error(error)
+		throw error
 	}
 }
 
@@ -26,27 +26,26 @@ const getFamily = async docId => {
 		}
 		return {id: family.id, data: family.data()}
 	} catch (error) {
-		console.error(error)
+		throw error
 	}
 }
 
-const addAdultToFamily = async (docId, userId) => {
+const addAdultToFamily = async (docId, emailAddress) => {
 	const docRef = store.collection('family').doc(docId)
 	try {
 		const result = await docRef.get()
-		const family = await result.docs[0]
-		if (!family || !family.exists) {
+		if (!result || !result.exists) {
 			throw new Error('no-family')
 		}
-		const adults = family.data().adults
-		if (!adults.includes(userId)) {
-			docRef.set({adults: [...adults, userId]}, {merge: true, mergeFields: 'adult'})
+		const adults = result.data().adults
+		if (!adults.includes(emailAddress)) {
+			docRef.set({adults: [...adults, emailAddress]}, {merge: true})
 			return 'success'
 		} else {
 			return 'conflict'
 		}
 	} catch (error) {
-		console.error(error)
+		throw error
 	}
 }
 
@@ -58,12 +57,9 @@ const findFamilyByEmail = async emailAddress => {
 			throw new Error('family-not-found')
 		} else {
 			const family = result.docs[0]
-			return family.data()
+			return {...family.data(), id: family.id}
 		}
 	} catch (error) {
-		if (error.message === 'family-not-found') {
-			return null
-		}
 		throw error
 	}
 }

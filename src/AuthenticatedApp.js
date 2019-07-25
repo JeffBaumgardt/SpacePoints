@@ -6,17 +6,24 @@ import HomeLanding from 'pages/HomeLanding'
 function AuthentiatedApp() {
 	const user = useUser()
 	const [family, setFamily] = React.useState(null)
+	const [isSetteled, setSetteled] = React.useState(false)
 
 	React.useEffect(() => {
 		const fetchFamily = async emailAddress => {
-			const family = await store.findFamilyByEmail(emailAddress)
-			console.log(family)
-			setFamily(family)
+			try {
+				const family = await store.findFamilyByEmail(emailAddress)
+				setFamily(family)
+			} catch (error) {
+				if (error.message === 'family-not-found') {
+					setFamily(null)
+				}
+			}
+			setSetteled(true)
 		}
 		fetchFamily(user.email)
 	}, [user, setFamily])
 
-	return <HomeLanding />
+	return isSetteled ? <HomeLanding familyInfo={family} /> : null
 }
 
 export default AuthentiatedApp
