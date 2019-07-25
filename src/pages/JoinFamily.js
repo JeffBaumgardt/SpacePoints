@@ -13,7 +13,7 @@ import {
 	DialogActions,
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
-import SnackbarError from './SnackbarError'
+import SnackbarError from 'components/SnackbarError'
 
 const useFamilyStyles = makeStyles(theme => ({
 	margin: {
@@ -139,7 +139,7 @@ function JoinFamily({completeFamily}) {
 								Creating a new family will simply create a new family, it will not check if a
 								family by the same name exists. Joining a family requires an existing family and a
 								email address of a member in that family. It's suggested that you try to join a
-								family first
+								family first.
 							</DialogContentText>
 							<div className={classes.optionSelections}>
 								<Button color="primary" variant='contained' value="create" className={classes.buttonMargin} onClick={handleOptionSelection('create')}>

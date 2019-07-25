@@ -1,9 +1,10 @@
 import React from 'react'
-import {Switch, Route, NavLink} from 'react-router-dom'
-import {Container, BottomNavigation, BottomNavigationAction} from '@material-ui/core'
+import PropTypes from 'prop-types'
+import {Switch, Route} from 'react-router-dom'
+import {Container} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
-import {GroupAdd, Cake, Home} from '@material-ui/icons'
-import JoinFamily from 'components/JoinFamily'
+import JoinFamily from './JoinFamily'
+import BottomNav from 'components/BottomNav'
 
 const useStyles = makeStyles(theme => ({
 	bottomNav: {
@@ -12,8 +13,6 @@ const useStyles = makeStyles(theme => ({
 		width: '100%',
 	},
 }))
-
-const ButtonLink = React.forwardRef((itemProps, ref) => <NavLink {...itemProps} innerRef={ref} />)
 
 function HomeLanding({familyInfo}) {
 	const classes = useStyles()
@@ -32,24 +31,16 @@ function HomeLanding({familyInfo}) {
 				<Route exact path="/family" children={<div>Hello Family</div>} />
 				<Route exact path="/rewards" children={<div>Hello Rewards</div>} />
 			</Switch>
-			<BottomNavigation showLabels className={classes.bottomNav}>
-				<BottomNavigationAction
-					label="Family"
-					icon={<GroupAdd />}
-					to="/family"
-					component={ButtonLink}
-				/>
-				<BottomNavigationAction label="Home" icon={<Home />} to="/" component={ButtonLink} />
-				<BottomNavigationAction
-					label="Rewards"
-					icon={<Cake />}
-					to="/rewards"
-					component={ButtonLink}
-				/>
-			</BottomNavigation>
+			<BottomNav className={classes.bottomNav} />
 			{family ? null : <JoinFamily completeFamily={newFamily => setFamily(newFamily)} />}
 		</Container>
 	)
+}
+
+HomeLanding.propTypes = {
+	familyInfo: PropTypes.shape({
+		id: PropTypes.string,
+	}),
 }
 
 export default HomeLanding
