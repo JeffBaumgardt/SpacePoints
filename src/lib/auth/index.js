@@ -1,5 +1,4 @@
 import {firebase, googleProvider} from '../firebase'
-import * as store from 'lib/store'
 
 const login = async () => {
 	try {
@@ -25,19 +24,12 @@ const getUser = () => {
 				return resolve(null)
 			}
 
-			try {
-				const userRecord = await store.getUser(user.uid)
-				resolve({
-					name: user.displayName,
-					email: user.email,
-					photoURL: user.photoURL,
-					docRecord: userRecord.id,
-					id: user.uid,
-				})
-			} catch (error) {
-				logout()
-				reject(error)
-			}
+			resolve({
+				name: user.displayName,
+				email: user.email,
+				photoURL: user.photoURL,
+				id: user.uid,
+			})
 		})
 	})
 }
