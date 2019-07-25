@@ -20,11 +20,10 @@ const getFamily = async docId => {
 	const docRef = store.collection('family').doc(docId)
 	try {
 		const result = await docRef.get()
-		const family = await result.docs[0]
-		if (!family || !family.exists) {
+		if (!result || !result.exists) {
 			throw new Error('no-family')
 		}
-		return {id: family.id, data: family.data()}
+		return {id: result.id, data: result.data()}
 	} catch (error) {
 		throw error
 	}

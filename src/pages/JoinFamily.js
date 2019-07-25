@@ -33,6 +33,7 @@ function JoinFamily({completeFamily}) {
 	const {email} = useUser()
 	const classes = useFamilyStyles()
 
+	const [open, setOpen] = React.useState(true)
 	const [error, setError] = React.useState(null)
 	const [optionShown, setOptionShown] = React.useState(null)
 
@@ -86,8 +87,10 @@ function JoinFamily({completeFamily}) {
 			const result = await addSelfToFamily(familyId, email)
 
 			if (result === 'success') {
+				setOpen(false)
 				resetValues()
-				completeFamily(familyId)
+				const family = await store.getFamily(familyId)
+				completeFamily(family)
 			} else {
 				setError('There was a problem creating your family')
 			}
@@ -99,12 +102,13 @@ function JoinFamily({completeFamily}) {
 			setError('You must enter a email address of a family member')
 		} else {
 			try {
-				const {id} = await store.findFamilyByEmail(familyEmail)
-				const result = await addSelfToFamily(id, email)
+				const family = await store.findFamilyByEmail(familyEmail)
+				const result = await addSelfToFamily(family.id, email)
 
 				if (result === 'success') {
+					setOpen(false)
 					resetValues()
-					completeFamily(id)
+					completeFamily(family)
 				} else {
 					setError('There was a problem adding user to family')
 				}
@@ -127,7 +131,7 @@ function JoinFamily({completeFamily}) {
 
 	return (
 		<>
-			<Dialog open aria-labelledby="form-dialog-title" fullWidth maxWidth="xl">
+			<Dialog open={open} aria-labelledby="form-dialog-title" fullWidth maxWidth="xl">
 				<DialogTitle id="form-dialog-title">Create or Join a Family</DialogTitle>
 				<DialogContent>
 					<Collapse in={!optionShown}>

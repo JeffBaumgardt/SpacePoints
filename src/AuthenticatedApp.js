@@ -2,6 +2,7 @@ import React from 'react'
 import {useUser} from 'context/user'
 import * as store from 'lib/store'
 import HomeLanding from 'pages/HomeLanding'
+import JoinFamily from 'pages/JoinFamily'
 
 function AuthentiatedApp() {
 	const user = useUser()
@@ -23,7 +24,12 @@ function AuthentiatedApp() {
 		fetchFamily(user.email)
 	}, [user, setFamily])
 
-	return isSetteled ? <HomeLanding familyInfo={family} /> : null
+	return isSetteled ? (
+		<>
+			<HomeLanding familyInfo={family} />
+			{!family && <JoinFamily completeFamily={newFamily => setFamily(newFamily)} />}
+		</>
+	) : null
 }
 
 export default AuthentiatedApp
