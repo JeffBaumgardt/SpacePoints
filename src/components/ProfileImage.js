@@ -1,11 +1,11 @@
 import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 
-function ProfileImage({image, name}) {
+function ProfileImage({image, name, ...other}) {
 	if (image) {
 		return <Avatar alt={name} src={image} />
 	} else {
-		return <Avatar>{name.subtring(0, 1)}</Avatar>
+		return <Avatar {...other}>{name.substring(0, 1)}</Avatar>
 	}
 }
 
