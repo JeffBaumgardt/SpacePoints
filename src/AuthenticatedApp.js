@@ -1,7 +1,7 @@
 import React from 'react'
 import {useUser} from 'context/user'
 import * as store from 'lib/store'
-import HomeLanding from 'pages/HomeLanding'
+import AppRouter from 'pages/AppRouter'
 import JoinFamily from 'pages/JoinFamily'
 
 function AuthentiatedApp() {
@@ -26,7 +26,7 @@ function AuthentiatedApp() {
 
 	return isSetteled ? (
 		<>
-			<HomeLanding familyInfo={family} />
+			<AppRouter familyInfo={family} />
 			{!family && <JoinFamily completeFamily={newFamily => setFamily(newFamily)} />}
 		</>
 	) : null
