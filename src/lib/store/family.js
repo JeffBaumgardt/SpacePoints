@@ -2,7 +2,7 @@ import {firebase} from '../firebase'
 
 const store = firebase.firestore()
 
-const createFamily = async familyName => {
+export const createFamily = async familyName => {
 	try {
 		const docRef = await store.collection('family').add({
 			name: familyName,
@@ -16,20 +16,33 @@ const createFamily = async familyName => {
 	}
 }
 
-const getFamily = async docId => {
+export const getFamily = async docId => {
 	const docRef = store.collection('family').doc(docId)
 	try {
 		const result = await docRef.get()
 		if (!result || !result.exists) {
 			throw new Error('no-family')
 		}
-		return {id: result.id, data: result.data()}
+		const kidPromises = []
+
+		result.data().kids.forEach(kid => {
+			kidPromises.push(getKid(kid))
+		})
+
+		const kids = await Promise.all(kidPromises)
+
+		return {id: result.id, ...result.data(), kids, docRef: docRef}
 	} catch (error) {
 		throw error
 	}
 }
 
-const addAdultToFamily = async (docId, emailAddress) => {
+const getKid = async kidRef => {
+	const result = await kidRef.get()
+	return {...result.data(), id: result.id, docRef: kidRef}
+}
+
+export const addAdultToFamily = async (docId, emailAddress) => {
 	const docRef = store.collection('family').doc(docId)
 	try {
 		const result = await docRef.get()
@@ -48,7 +61,7 @@ const addAdultToFamily = async (docId, emailAddress) => {
 	}
 }
 
-const findFamilyByEmail = async emailAddress => {
+export const findFamilyByEmail = async emailAddress => {
 	const docRef = store.collection('family').where('adults', 'array-contains', emailAddress)
 	try {
 		const result = await docRef.get()
@@ -56,11 +69,9 @@ const findFamilyByEmail = async emailAddress => {
 			throw new Error('family-not-found')
 		} else {
 			const family = result.docs[0]
-			return {...family.data(), id: family.id}
+			return getFamily(family.id)
 		}
 	} catch (error) {
 		throw error
 	}
 }
-
-export {createFamily, getFamily, findFamilyByEmail, addAdultToFamily}
