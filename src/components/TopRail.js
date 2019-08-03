@@ -36,7 +36,7 @@ function TopRail() {
 		<AppBar position="static">
 			<Toolbar>
 				<Typography variant="h6" className={classes.title}>
-					Kids Point Tracker
+					Kid's Point Tracker
 				</Typography>
 				{user ? (
 					<div>

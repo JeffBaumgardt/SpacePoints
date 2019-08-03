@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {Grid, Fab} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import ProfileImage from 'components/ProfileImage'
-import {Add} from '@material-ui/icons'
+import {number} from 'utils'
 
 const ButtonLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
 
@@ -16,14 +15,27 @@ const useStyles = makeStyles(theme => ({
 	kidButton: {
 		height: 80,
 		width: 80,
+		overflow: 'hidden',
+		borderRadius: '50%',
 	},
 	kidImage: {
 		height: 80,
 		width: 80,
-		backgroundColor: 'transparent',
 	},
 	addKid: {
 		color: 'white',
+	},
+	points: {
+		position: 'absolute',
+		width: 80,
+		backgroundColor: 'rgba(0,0,0,.2)',
+		padding: `${theme.spacing(1)}px 0`,
+		right: 0,
+		bottom: 0,
+		textAlign: 'center',
+		color: 'white',
+		fontSize: theme.spacing(1),
+		lineHeight: `${theme.spacing(1)}px`,
 	},
 }))
 
@@ -42,18 +54,10 @@ function Home({kids}) {
 				<Grid item container justify="center" xs={6} key={kid.id}>
 					<Fab className={classes.kidButton} component={ButtonLink} to={`/kid/${kid.id}`}>
 						<ProfileImage name={kid.name} image={kid.image} className={classes.kidImage} />
+						<span className={classes.points}>{number(kid.points)}></span>
 					</Fab>
 				</Grid>
 			))}
-			<Grid item container justify="center" xs={6}>
-				<Fab
-					className={clsx(classes.kidButton, classes.addKid)}
-					component={ButtonLink}
-					to="/kid/new"
-				>
-					<Add />
-				</Fab>
-			</Grid>
 		</Grid>
 	)
 }

@@ -5,6 +5,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import BottomNav from 'components/BottomNav'
 import Home from './Home'
 import Kid from './Kid'
+import Family from './Family'
 
 const useStyles = makeStyles(theme => ({
 	bottomNav: {
@@ -17,14 +18,22 @@ const useStyles = makeStyles(theme => ({
 function AppRouter({familyInfo}) {
 	const classes = useStyles()
 
-	return (
+	return familyInfo ? (
 		<>
 			<Container maxWidth="sm">
 				<Switch>
-					<Route exact path="/" render={routeProps => (
-						<Home kids={familyInfo.kids} {...routeProps} />
-					)} />
-					<Route exact path="/family" children={<div>Hello Family</div>} />
+					<Route
+						exact
+						path="/"
+						render={routeProps => <Home kids={familyInfo.kids} {...routeProps} />}
+					/>
+					<Route
+						exact
+						path="/family"
+						render={routeProps => (
+							<Family kids={familyInfo.kids} adults={familyInfo.adults} {...routeProps} />
+						)}
+					/>
 					<Route exact path="/rewards" children={<div>Hello Rewards</div>} />
 					<Route exact path="/kid/new" children={<div>New Kid</div>} />
 					<Route path="/kid/:id" component={Kid} />
@@ -32,7 +41,7 @@ function AppRouter({familyInfo}) {
 			</Container>
 			<BottomNav className={classes.bottomNav} />
 		</>
-	)
+	) : null
 }
 
 export default AppRouter
