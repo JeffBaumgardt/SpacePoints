@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {BrowserRouter} from 'react-router-dom'
+import ReduxProvider from './redux'
 import {AuthProvider} from './auth'
 import {UserProvider} from './user'
 
@@ -8,7 +9,9 @@ function AppProviders({children}) {
 	return (
 		<BrowserRouter>
 			<AuthProvider>
-				<UserProvider>{children}</UserProvider>
+				<UserProvider>
+					<ReduxProvider>{children}</ReduxProvider>
+				</UserProvider>
 			</AuthProvider>
 		</BrowserRouter>
 	)
