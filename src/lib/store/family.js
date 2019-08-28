@@ -96,4 +96,4 @@ export const watchDocRef = docRef => {
 	})
 }
 
-export const updateFamily
+export {updateFamily}
