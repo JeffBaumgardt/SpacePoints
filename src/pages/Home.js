@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Grid, Fab} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
@@ -39,8 +39,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-function Home({kids}) {
+function Home() {
 	const classes = useStyles()
+	const {kids} = useSelector(state => state.family)
 
 	return (
 		<Grid
@@ -60,16 +61,6 @@ function Home({kids}) {
 			))}
 		</Grid>
 	)
-}
-
-Home.propTypes = {
-	kids: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			image: PropTypes.string,
-			name: PropTypes.string.isRequired,
-		})
-	),
 }
 
 export default Home

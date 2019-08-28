@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import {
 	Grid,
@@ -39,11 +40,12 @@ function ShowDialog({type, kidId, open, onClose}) {
 	}
 }
 
-function Family({id, kids, adults}) {
+function Family() {
 	const classes = useStyles()
 	const [dialogState, setDialogState] = React.useState(false)
 	const [dialogType, setDialogType] = React.useState('')
 	const [selectedKid, setSelectedKid] = React.useState('')
+	const {id, kids, adults} = useSelector(state => state.family)
 
 	const editKid = kidId => {
 		setDialogType('edit')
