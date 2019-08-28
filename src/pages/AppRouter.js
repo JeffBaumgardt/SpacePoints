@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {Switch, Route} from 'react-router-dom'
 import {Container} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
@@ -15,8 +16,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-function AppRouter({familyInfo}) {
+function AppRouter({}) {
 	const classes = useStyles()
+	const familyInfo = useSelector(state => state.family)
 
 	return familyInfo ? (
 		<>
