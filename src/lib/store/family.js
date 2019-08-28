@@ -93,5 +93,7 @@ export const watchDocRef = docRef => {
 		const family = {id: snapshot.id, ...result, kids, docRef: result.ref}
 
 		ReduxStore.dispatch(updateFamily(family))
-	})F
+	})
 }
+
+export const updateFamily
