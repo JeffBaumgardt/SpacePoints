@@ -14,6 +14,7 @@ import {Edit, Delete} from '@material-ui/icons'
 import {number} from 'utils'
 import ProfileImage from 'components/ProfileImage'
 import EditKid from './EditKid'
+import {getFamily} from 'lib/store'
 
 const useStyles = makeStyles(theme => ({
 	familyContianer: {
@@ -38,7 +39,7 @@ function ShowDialog({type, kidId, open, onClose}) {
 	}
 }
 
-function Family({kids, adults}) {
+function Family({id, kids, adults}) {
 	const classes = useStyles()
 	const [dialogState, setDialogState] = React.useState(false)
 	const [dialogType, setDialogType] = React.useState('')
@@ -55,10 +56,15 @@ function Family({kids, adults}) {
 		setSelectedKid(kidId)
 	}
 
-	const closeDialog = () => {
+	const closeDialog = wasUpdated => {
 		setDialogType('')
 		setSelectedKid('')
 		setDialogState(false)
+
+		if (wasUpdated) {
+			console.log('was updated', id)
+			getFamily(id)
+		}
 	}
 
 	return (

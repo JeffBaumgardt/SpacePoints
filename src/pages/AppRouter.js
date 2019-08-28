@@ -31,7 +31,7 @@ function AppRouter({familyInfo}) {
 						exact
 						path="/family"
 						render={routeProps => (
-							<Family kids={familyInfo.kids} adults={familyInfo.adults} {...routeProps} />
+							<Family id={familyInfo.id} kids={familyInfo.kids} adults={familyInfo.adults} {...routeProps} />
 						)}
 					/>
 					<Route exact path="/rewards" children={<div>Hello Rewards</div>} />

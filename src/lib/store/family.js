@@ -1,4 +1,6 @@
 import {firebase} from '../firebase'
+import {store as ReduxStore} from 'context/redux'
+import {updateFamily} from 'lib/redux/reducer/family'
 
 const store = firebase.firestore()
 
@@ -16,6 +18,16 @@ export const createFamily = async familyName => {
 	}
 }
 
+const processKids = async kids => {
+	const kidPromises = []
+
+	kids.forEach(kid => {
+		kidPromises.push(getKid(kid))
+	})
+
+	return await Promise.all(kidPromises)
+}
+
 export const getFamily = async docId => {
 	const docRef = store.collection('family').doc(docId)
 	try {
@@ -23,13 +35,8 @@ export const getFamily = async docId => {
 		if (!result || !result.exists) {
 			throw new Error('no-family')
 		}
-		const kidPromises = []
 
-		result.data().kids.forEach(kid => {
-			kidPromises.push(getKid(kid))
-		})
-
-		const kids = await Promise.all(kidPromises)
+		const kids = await processKids(result.data().kids)
 
 		return {id: result.id, ...result.data(), kids, docRef: docRef}
 	} catch (error) {
@@ -74,4 +81,17 @@ export const findFamilyByEmail = async emailAddress => {
 	} catch (error) {
 		throw error
 	}
+}
+
+export const watchDocRef = docRef => {
+	return docRef.onSnapshot(async snapshot => {
+		console.log('Update', snapshot.data())
+		const result = snapshot.data()
+
+		const kids = await processKids(result.kids)
+
+		const family = {id: snapshot.id, ...result, kids, docRef: result.ref}
+
+		ReduxStore.dispatch(updateFamily(family))
+	})F
 }

@@ -6,15 +6,13 @@ import {
 	TextField,
 	Button,
 	DialogActions,
-	Avatar,
 	IconButton,
 } from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
-import {getKid, updateKids} from 'lib/store'
 import ProfileImage from 'components/ProfileImage'
 import {AddAPhoto} from '@material-ui/icons'
 import {blue} from '@material-ui/core/colors'
-import {uploadImage, updateKid} from 'lib/store'
+import {uploadImage, updateKid, getKid} from 'lib/store'
 
 const useStyles = makeStyles(theme => ({
 	profileImageWrapper: {
@@ -99,7 +97,7 @@ function EditKid({open, kidId, onClose}) {
 			image: values.image,
 			points: values.points
 		})
-		onClose()
+		onClose(true)
 	}
 
 	return (
@@ -126,7 +124,9 @@ function EditKid({open, kidId, onClose}) {
 				<Button color="secondary" onClick={onClose}>
 					Cancel
 				</Button>
-				<Button color="primary">Save</Button>
+				<Button color="primary" onClick={saveChanges}>
+					Save
+				</Button>
 			</DialogActions>
 		</Dialog>
 	)
