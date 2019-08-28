@@ -39,7 +39,7 @@ function AuthentiatedApp() {
 
 	return isSetteled ? (
 		<>
-			<AppRouter familyInfo={family} />
+			<AppRouter/>
 			{!family && (
 				<JoinFamily
 					completeFamily={familySetter}
